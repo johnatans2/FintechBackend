@@ -26,16 +26,19 @@ public class Fintech{
     public static void exibirMensagemOpcaoIncorreta(){
         System.out.println("Opção selecionada inválida, por favor, digite novamente:");
     }
-    public static int tentarNovamente(){
-        int selecao;
+    public static void tentarNovamente(){
         do {
             System.out.println("Deseja tentar novamente?");
             Fintech.exibirMensagemVoltaAoMenu();
-            selecao = Fintech.inputInt();
-            if(selecao!=1&&selecao!=0){
+            Main.opcao = Fintech.inputInt();
+            if(Main.opcao!=1&&Main.opcao!=0){
                 Fintech.exibirMensagemOpcaoIncorreta();
             }
-        }while(selecao!=1&&selecao!=0);
-        return selecao;
+        }while(Main.opcao!=1&&Main.opcao!=0);
+    }
+    public static void naoEncerrarPrograma(){
+        if(Main.opcao==0){
+            Main.opcao=1;
+        }
     }
 }

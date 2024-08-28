@@ -1,12 +1,9 @@
 public class Main{
     //Início do Programa
+    static int opcao;
     public static void main(String[] args){
         //Declaração de Variáveis
-        int opcao;
-        Usuario usuario=new Usuario();
-        String nomeUsuario;
-        String email;
-        String senha;
+        Usuario usuario;
         boolean login=false;
         String loginUsuario;
         String loginEmail;
@@ -40,16 +37,13 @@ public class Main{
                     break;
                 case 1:
                     //Cadastro de Usuário
-                    nomeUsuario=Usuario.cadastrarNomeUsuario();
-                    email=Usuario.cadastrarEmail();
-                    senha=Usuario.cadastrarSenha();
+                    usuario=new Usuario(Usuario.cadastrarNomeUsuario(),Usuario.cadastrarEmail(),Usuario.cadastrarSenha());
                     do{
                         System.out.println("Cadastrar Usuário?");
                         Fintech.exibirMensagemVoltaAoMenu();
                         opcao=Fintech.inputInt();
                         switch (opcao){
                             case 1:
-                                usuario=new Usuario(nomeUsuario,email,senha);
                                 System.out.println("Usuário cadastrado com sucesso!");
                                 do{
                                     System.out.println("Deseja fazer o login?");
@@ -67,6 +61,9 @@ public class Main{
                                             break;
                                     }
                                 }while(opcao!=2&&opcao!=0);
+                                break;
+                            case 0:
+                                usuario=new Usuario();
                                 break;
                             default:
                                 Fintech.exibirMensagemOpcaoIncorreta();
@@ -104,6 +101,7 @@ public class Main{
                                 opcao=Fintech.inputInt();
                                 switch(opcao){
                                     case 0:
+                                        login=false;
                                         System.out.println("Fazendo logout...");
                                         break;
                                     case 1:
@@ -152,52 +150,22 @@ public class Main{
                                 }
                             }while(opcao!=0);
                         }else{
-                            do {
-                                //Verificação de Login
-                                do {
-                                    loginUsuario=Usuario.loginUsuario();
-                                    if(!loginUsuario.equals(usuario.nomeUsuario)){
-                                        System.out.println("Usuário não cadastrado");
-                                    }else{
-                                        break;
-                                    }
-                                    opcao=Fintech.tentarNovamente();
-                                }while(!loginUsuario.equals(usuario.nomeUsuario)&&opcao!=0);
-                                if(opcao==0){
-                                    break;
-                                }
-                                do{
-                                    loginEmail=Usuario.loginEmail();
-                                    if(!loginEmail.equals(usuario.email)){
-                                        System.out.println("E-mail não cadastrado");
-                                    }else{
-                                        break;
-                                    }
-                                    opcao=Fintech.tentarNovamente();
-                                }while(!loginEmail.equals(usuario.email)&&opcao!=0);
-                                if(opcao==0){
-                                    break;
-                                }
-                                do{
-                                    loginSenha=Usuario.loginSenha();
-                                    if(!loginSenha.equals(usuario.senha)){
-                                        System.out.println("Senha incorreta");
-                                    }else{
-                                        break;
-                                    }
-                                    opcao=Fintech.tentarNovamente();
-                                }while(!loginSenha.equals(usuario.senha)&&opcao!=0);
-                                if(opcao!=0){
-                                    login=true;
-                                    break;
-                                }
-                            }while(opcao!=0);
-                        }
-                        if(opcao==0){
-                            opcao=1;
-                            break;
+                            //Verificação de Login
+                            Usuario.loginUsuario();
+                            if(opcao==0){
+                                break;
+                            }
+                            Usuario.loginEmail();
+                            if(opcao==0){
+                                break;
+                            }
+                            Usuario.loginSenha();
+                            if(opcao!=0){
+                                login=true;
+                            }
                         }
                     }while(opcao!=0);
+                    Fintech.naoEncerrarPrograma();
                     break;
                 default:
                     System.out.println("Opção selecionada inválida...");
