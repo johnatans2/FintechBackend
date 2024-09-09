@@ -1,21 +1,20 @@
+package funcionalidades;
 //Importando Bibliotecas
 import java.util.Scanner;
 public class Fintech{
+    public static int opcao;
     //Métodos
     public static String inputString(){
         Scanner input=new Scanner(System.in);
-        String entrada=input.nextLine();
-        return entrada;
+        return input.nextLine();
     }
     public static int inputInt(){
         Scanner input=new Scanner(System.in);
-        int entrada=input.nextInt();
-        return entrada;
+        return input.nextInt();
     }
     public static double inputDouble(){
         Scanner input=new Scanner(System.in);
-        double entrada=input.nextDouble();
-        return entrada;
+        return input.nextDouble();
     }
     public static void exibirMensagemVoltaAoMenu(){
         System.out.println("""
@@ -30,15 +29,19 @@ public class Fintech{
         do {
             System.out.println("Deseja tentar novamente?");
             Fintech.exibirMensagemVoltaAoMenu();
-            Main.opcao = Fintech.inputInt();
-            if(Main.opcao!=1&&Main.opcao!=0){
+            opcao = Fintech.inputInt();
+            if(opcao!=1&&opcao!=0){
                 Fintech.exibirMensagemOpcaoIncorreta();
             }
-        }while(Main.opcao!=1&&Main.opcao!=0);
+        }while(opcao!=1&&opcao!=0);
     }
     public static void naoEncerrarPrograma(){
-        if(Main.opcao==0){
-            Main.opcao=1;
+        if(opcao==0){
+            opcao=1;
         }
+    }
+    public static void exibirMensagemExclusaoDeDados(){
+        System.out.println("Você já possui dados do tipo registrados, caso queira prosseguir com esta funcionalidade, os dados anteriores serão sobreescritos");
+        System.out.println("Deseja sobreescrever os dados registrados?");
     }
 }

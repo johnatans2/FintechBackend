@@ -1,9 +1,11 @@
+package modelos;
+import funcionalidades.Fintech;
 public class Usuario{
     //Atributos
-    static String nomeUsuario;
-    static String email;
-    static String senha;
-    ContaBancaria contaBancaria;
+    private String nomeUsuario;
+    private String email;
+    public String senha;
+    //public static ContaBancaria contaBancaria;
     int contasCadastradas=0;
     //Constructors
     public Usuario(String nomeUsuario,String email,String senha){
@@ -12,59 +14,57 @@ public class Usuario{
         this.senha=senha;
     }
     public Usuario(){}
-    //Métodos
-    public static String cadastrarNomeUsuario(){
+    //Setters
+    public String setNomeUsuario(){
         System.out.println("Por favor, digite seu usuário:");
-        nomeUsuario=Fintech.inputString().toLowerCase();
-        return nomeUsuario;
+        return Fintech.inputString().toLowerCase();
     }
-    public static String cadastrarEmail(){
+    public String setEmail(){
         System.out.println("Por favor, digite seu e-mail:");
-        email=Fintech.inputString().toLowerCase();
-        return email;
+        return Fintech.inputString().toLowerCase();
     }
-    public static String cadastrarSenha(){
+    public String setSenha(){
         System.out.println("Por favor, digite sua senha:");
-        senha=Fintech.inputString();
-        return senha;
+        return Fintech.inputString();
     }
-    public static void loginUsuario(){
+    public void loginUsuario(){
         String loginUsuario;
         do {
             System.out.println("Por favor, digite seu usuário:");
             loginUsuario=Fintech.inputString();
-            if(!loginUsuario.equals(nomeUsuario)){
+            if(!loginUsuario.equals(this.nomeUsuario)){
                 System.out.println("Usuário não cadastrado");
             }else{
                 break;
             }
             Fintech.tentarNovamente();
-        }while(!loginUsuario.equals(nomeUsuario)&&Main.opcao!=0);
+        }while(!loginUsuario.equals(this.nomeUsuario)&&Fintech.opcao!=0);
     }
-    public static void loginEmail(){
+    //Métodos Comuns
+    public void loginEmail(){
         String loginEmail;
         do{
             System.out.println("Por favor, digite seu e-mail:");
             loginEmail=Fintech.inputString();
-            if(!loginEmail.equals(email)){
+            if(!loginEmail.equals(this.email)){
                 System.out.println("E-mail não cadastrado");
             }else{
                 break;
             }
             Fintech.tentarNovamente();
-        }while(!loginEmail.equals(email)&&Main.opcao!=0);
+        }while(!loginEmail.equals(this.email)&&Fintech.opcao!=0);
     }
-    public static void loginSenha(){
+    public void loginSenha(){
         String loginSenha;
         do{
             System.out.println("Por favor, digite sua senha:");
             loginSenha=Fintech.inputString();
-            if(!loginSenha.equals(senha)){
+            if(!loginSenha.equals(this.senha)){
                 System.out.println("Senha incorreta");
             }else{
                 break;
             }
             Fintech.tentarNovamente();
-        }while(!loginSenha.equals(senha)&&Main.opcao!=0);
+        }while(!loginSenha.equals(this.senha)&&Fintech.opcao!=0);
     }
 }

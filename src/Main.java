@@ -1,19 +1,19 @@
-public class Main{
+//Importações
+import modelos.ContaBancaria;
+import modelos.Usuario;
+import funcionalidades.Fintech;
+import modelos.CartaoCredito;
+public class Main {
     //Início do Programa
-    static int opcao;
     public static void main(String[] args){
         //Declaração de Variáveis
-        Usuario usuario;
+        Usuario usuario=new Usuario();
+        int usuariosCadastrados=0;
         boolean login=false;
-        String loginUsuario;
-        String loginEmail;
-        String loginSenha;
-        int contasBancarias=0;
-        String nomeContaBancaria;
-        String tipoContaBancaria;
-        String bancoVinculado;
-        double saldoConta;
-        ContaBancaria contaBancaria;
+        ContaBancaria contaBancaria=new ContaBancaria();
+        int contasBancariasCadastradas=0;
+        CartaoCredito cartaoCredito=new CartaoCredito();
+        int cartoesCreditoCadastrados=0;
         //Apresentação
         System.out.println("""
                 
@@ -30,53 +30,69 @@ public class Main{
                     2 - Login
                     0 - Encerrar programa
                     """);
-            opcao=Fintech.inputInt();
-            switch (opcao) {
+            Fintech.opcao= Fintech.inputInt();
+            switch (Fintech.opcao) {
                 case 0:
                     System.out.println("Encerrando o programa... Muito obrigado por utilizar o Fintech!");
                     break;
                 case 1:
                     //Cadastro de Usuário
-                    usuario=new Usuario(Usuario.cadastrarNomeUsuario(),Usuario.cadastrarEmail(),Usuario.cadastrarSenha());
-                    do{
-                        System.out.println("Cadastrar Usuário?");
-                        Fintech.exibirMensagemVoltaAoMenu();
-                        opcao=Fintech.inputInt();
-                        switch (opcao){
-                            case 1:
-                                System.out.println("Usuário cadastrado com sucesso!");
-                                do{
-                                    System.out.println("Deseja fazer o login?");
-                                    Fintech.exibirMensagemVoltaAoMenu();
-                                    opcao=Fintech.inputInt();
-                                    switch(opcao){
-                                        case 1:
-                                            opcao=2;
-                                            login=true;
-                                            break;
-                                        case 0:
-                                            break;
-                                        default:
-                                            Fintech.exibirMensagemOpcaoIncorreta();
-                                            break;
-                                    }
-                                }while(opcao!=2&&opcao!=0);
-                                break;
-                            case 0:
-                                usuario=new Usuario();
-                                break;
-                            default:
-                                Fintech.exibirMensagemOpcaoIncorreta();
-                                break;
-                        }
-                        if(opcao==0){
-                            opcao=1;
-                            break;
-                        }else if(opcao==2){
-                            break;
-                        }
-                    }while(opcao!=0);
-                    if(opcao!=2){
+                    if(usuariosCadastrados==0) {
+                        usuario = new Usuario(usuario.setNomeUsuario(), usuario.setEmail(), usuario.setSenha());
+                        do{
+                            System.out.println("Cadastrar Usuário?");
+                            Fintech.exibirMensagemVoltaAoMenu();
+                            Fintech.opcao = Fintech.inputInt();
+                            switch(Fintech.opcao){
+                                case 1:
+                                    usuariosCadastrados++;
+                                    System.out.println("Usuário cadastrado com sucesso!");
+                                    break;
+                                case 0:
+                                    usuario = new Usuario();
+                                    break;
+                                default:
+                                    Fintech.exibirMensagemOpcaoIncorreta();
+                                    break;
+                            }
+                        }while(Fintech.opcao!=0&&Fintech.opcao!=1);
+                    }else{
+                        do{
+                            Fintech.exibirMensagemExclusaoDeDados();
+                            Fintech.exibirMensagemVoltaAoMenu();
+                            Fintech.opcao=Fintech.inputInt();
+                            switch(Fintech.opcao){
+                                case 0:
+                                    break;
+                                case 1:
+                                    usuario=new Usuario(usuario.setNomeUsuario(),usuario.setEmail(),usuario.setSenha());
+                                    System.out.println("Usuário cadastrado com sucesso!");
+                                    break;
+                                default:
+                                    Fintech.exibirMensagemOpcaoIncorreta();
+                                    break;
+                            }
+                        }while(Fintech.opcao!=0&&Fintech.opcao!=1);
+                    }
+                    if(Fintech.opcao==1) {
+                        do {
+                            System.out.println("Deseja fazer o login?");
+                            Fintech.exibirMensagemVoltaAoMenu();
+                            Fintech.opcao = Fintech.inputInt();
+                            switch (Fintech.opcao) {
+                                case 1:
+                                    login = true;
+                                    break;
+                                case 0:
+                                    break;
+                                default:
+                                    Fintech.exibirMensagemOpcaoIncorreta();
+                                    break;
+                            }
+                        }while(Fintech.opcao!=0&&Fintech.opcao!=1);
+                    }
+                    if(Fintech.opcao==0){
+                        Fintech.opcao=1;
                         break;
                     }
                 case 2:
@@ -84,7 +100,7 @@ public class Main{
                         if (login) {
                             System.out.println("Login efetuado com sucesso!\n");
                             System.out.println("Ｆｉｎｔｅｃｈ, o seu gestor de finanças online!");
-                            //Começando de Fato o Programa
+                            //Começando, de Fato, o Programa
                             do{
                                 System.out.println("""
                                         
@@ -93,13 +109,13 @@ public class Main{
                                         Selecione uma das opções abaixo:
                                         
                                         1 - Painel de contas bancárias
-                                        2 - Registrar cartão de crédito
+                                        2 - Painel cartões de crédito
                                         3 - Registrar receita
                                         4 - Registrar despesa
                                         0 - Logout
                                         """);
-                                opcao=Fintech.inputInt();
-                                switch(opcao){
+                                Fintech.opcao= Fintech.inputInt();
+                                switch(Fintech.opcao){
                                     case 0:
                                         login=false;
                                         System.out.println("Fazendo logout...");
@@ -112,66 +128,184 @@ public class Main{
                                                     Qual funcionalidade deseja utilizar?
                                                     
                                                     1 - Registrar conta bancária
-                                                    2 - Exibir contas bancárias cadastradas
-                                                    3 - Verificar saldo de conta bancária
+                                                    2 - Exibir dados da conta bancária
+                                                    3 - Verificar saldo da conta bancária
                                                     0 - Retornar ao menu
                                                     """);
-                                            opcao=Fintech.inputInt();
-                                            switch(opcao){
+                                            Fintech.opcao= Fintech.inputInt();
+                                            switch(Fintech.opcao){
+                                                case 0:
+                                                    break;
                                                 case 1:
-                                                    nomeContaBancaria = ContaBancaria.registrarNomeConta();
-                                                    tipoContaBancaria=ContaBancaria.registrarTipoConta();
-                                                    bancoVinculado=ContaBancaria.registrarBancoVinculado();
-                                                    saldoConta=ContaBancaria.registrarSaldoConta();
-                                                    do{
-                                                        System.out.println("Deseja registrar a conta?");
-                                                        Fintech.exibirMensagemVoltaAoMenu();
-                                                        opcao=Fintech.inputInt();
-                                                        switch(opcao){
-                                                            case 1:
-                                                                contaBancaria=new ContaBancaria(nomeContaBancaria,tipoContaBancaria,bancoVinculado,saldoConta);
-                                                                System.out.println("Conta bancária registrada com sucesso!");
-                                                                contasBancarias++;
-                                                                break;
-                                                            default:
-                                                                Fintech.exibirMensagemOpcaoIncorreta();
-                                                                break;
-                                                        }
-                                                    }while(opcao!=0&&opcao!=1);
-                                                    if(opcao==0){
-                                                        opcao=1;
+                                                    if(contasBancariasCadastradas==0) {
+                                                        contaBancaria = new ContaBancaria(contaBancaria.setNome(), contaBancaria.setTipo(), contaBancaria.setBancoVinculado(), contaBancaria.setSaldo());
+                                                        do{
+                                                            System.out.println("Deseja registrar a conta bancária?");
+                                                            Fintech.exibirMensagemVoltaAoMenu();
+                                                            Fintech.opcao= Fintech.inputInt();
+                                                            switch(Fintech.opcao){
+                                                                case 0:
+                                                                    contaBancaria = new ContaBancaria();
+                                                                    break;
+                                                                case 1:
+                                                                    contasBancariasCadastradas++;
+                                                                    System.out.println("Conta bancária registrada com sucesso!");
+                                                                    break;
+                                                                default:
+                                                                    Fintech.exibirMensagemOpcaoIncorreta();
+                                                                    break;
+                                                            }
+                                                        }while(Fintech.opcao!=0&&Fintech.opcao!=1);
+                                                    }else{
+                                                        do{
+                                                            Fintech.exibirMensagemExclusaoDeDados();
+                                                            Fintech.exibirMensagemVoltaAoMenu();
+                                                            Fintech.opcao=Fintech.inputInt();
+                                                            switch(Fintech.opcao){
+                                                                case 0:
+                                                                    break;
+                                                                case 1:
+                                                                    contaBancaria=new ContaBancaria(contaBancaria.setNome(),contaBancaria.setTipo(),contaBancaria.setBancoVinculado(),contaBancaria.setSaldo());
+                                                                    System.out.println("Conta bancária registrada com sucesso!");
+                                                                    break;
+                                                                default:
+                                                                    Fintech.exibirMensagemOpcaoIncorreta();
+                                                                    break;
+                                                            }
+                                                        }while(Fintech.opcao!=0 && Fintech.opcao!=1);
+                                                    }
+                                                    Fintech.naoEncerrarPrograma();
+                                                    break;
+                                                case 2:
+                                                    if(contasBancariasCadastradas==0){
+                                                        contaBancaria.exibirMensagemNenhumaContaCadastrada();
+                                                    }else{
+                                                        System.out.println("Nome da Conta Bancária: "+contaBancaria.getNome());
+                                                        System.out.println("Tipo de Conta Bancária: "+contaBancaria.getTipoConta());
+                                                        System.out.println("Banco Vinculado: "+contaBancaria.getBancoVinculado());
+                                                        System.out.println("Saldo: "+contaBancaria.getSaldo());
                                                     }
                                                     break;
+                                                case 3:
+                                                    if(contasBancariasCadastradas==0){
+                                                        contaBancaria.exibirMensagemNenhumaContaCadastrada();
+                                                    }else{
+                                                        System.out.println("O saldo da conta "+contaBancaria.getNome()+" é de R$:"+contaBancaria.getSaldo());
+                                                    }
+                                                    break;
+                                                default:
+                                                    Fintech.exibirMensagemOpcaoIncorreta();
+                                                    break;
                                             }
-                                        }while(opcao!=0);
+                                        }while(Fintech.opcao!=0);
+                                        Fintech.naoEncerrarPrograma();
+                                        break;
+                                    case 2:
+                                        do {
+                                            System.out.println("""
+                                                    Painel de Cartões de Crédito
+                                                    
+                                                    Qual funcionalidade deseja utilizar?
+                                                    
+                                                    1 - Registrar cartão de crédito
+                                                    2 - Exibir dados do cartão de crédito
+                                                    3 - Exibir fatura do cartão de crédto
+                                                    0 - Retornar ao menu
+                                                    """);
+                                            Fintech.opcao=Fintech.inputInt();
+                                            switch(Fintech.opcao) {
+                                                case 0:
+                                                    break;
+                                                case 1:
+                                                    if (cartoesCreditoCadastrados == 0) {
+                                                        cartaoCredito=new CartaoCredito(cartaoCredito.setNome(),cartaoCredito.setLimite(),cartaoCredito.setFatura());
+                                                        do{
+                                                            System.out.println("Deseja registrar o cartão de crédito?");
+                                                            Fintech.exibirMensagemVoltaAoMenu();
+                                                            Fintech.opcao=Fintech.inputInt();
+                                                            switch(Fintech.opcao){
+                                                                case 0:
+                                                                    cartaoCredito=new CartaoCredito();
+                                                                    break;
+                                                                case 1:
+                                                                    cartoesCreditoCadastrados++;
+                                                                    System.out.println("Cartão de crédito registrado com sucesso!");
+                                                                    break;
+                                                                default:
+                                                                    Fintech.exibirMensagemOpcaoIncorreta();
+                                                                    break;
+                                                            }
+                                                        }while(Fintech.opcao!=0&&Fintech.opcao!=1);
+                                                    }else{
+                                                        do{
+                                                            Fintech.exibirMensagemExclusaoDeDados();
+                                                            Fintech.exibirMensagemVoltaAoMenu();
+                                                            Fintech.opcao=Fintech.inputInt();
+                                                            switch(Fintech.opcao){
+                                                                case 0:
+                                                                    break;
+                                                                case 1:
+                                                                    cartaoCredito=new CartaoCredito(cartaoCredito.setNome(),cartaoCredito.setLimite(),cartaoCredito.setFatura());
+                                                                    System.out.println("Cartão de crédito registrado com sucesso!");
+                                                                    break;
+                                                                default:
+                                                                    Fintech.exibirMensagemOpcaoIncorreta();
+                                                                    break;
+                                                            }
+                                                        }while(Fintech.opcao!=0&&Fintech.opcao!=1);
+                                                    }
+                                                    Fintech.naoEncerrarPrograma();
+                                                    break;
+                                                case 2:
+                                                    if(cartoesCreditoCadastrados==0){
+                                                        cartaoCredito.exibirMensagemNenhumCartaoCadastrado();
+                                                    }else {
+                                                        System.out.println("Nome do Cartão: " + cartaoCredito.getNome());
+                                                        System.out.println("Limite do Cartão: " + cartaoCredito.getLimite());
+                                                    }
+                                                    break;
+                                                case 3:
+                                                    if(cartoesCreditoCadastrados==0){
+                                                        cartaoCredito.exibirMensagemNenhumCartaoCadastrado();
+                                                    }else{
+                                                        System.out.println("A fatura do cartão de crédito: "+cartaoCredito.getNome()+"; é de R$:"+cartaoCredito.getFatura());
+                                                    }
+                                                    break;
+                                                default:
+                                                    Fintech.exibirMensagemOpcaoIncorreta();
+                                                    break;
+                                            }
+                                        }while(Fintech.opcao!=0);
+                                        Fintech.naoEncerrarPrograma();
+                                        break;
                                     default:
                                         System.out.println("Opção selecionada inválida...");
                                         break;
                                 }
-                            }while(opcao!=0);
+                            }while(Fintech.opcao!=0);
                         }else{
                             //Verificação de Login
-                            Usuario.loginUsuario();
-                            if(opcao==0){
+                            usuario.loginUsuario();
+                            if(Fintech.opcao==0){
                                 break;
                             }
-                            Usuario.loginEmail();
-                            if(opcao==0){
+                            usuario.loginEmail();
+                            if(Fintech.opcao==0){
                                 break;
                             }
-                            Usuario.loginSenha();
-                            if(opcao!=0){
+                            usuario.loginSenha();
+                            if(Fintech.opcao!=0){
                                 login=true;
                             }
                         }
-                    }while(opcao!=0);
+                    }while(Fintech.opcao!=0);
                     Fintech.naoEncerrarPrograma();
                     break;
                 default:
                     System.out.println("Opção selecionada inválida...");
                     break;
             }
-        }while(opcao!=0);
+        }while(Fintech.opcao!=0);
         //Fim do Programa
     }
 }
